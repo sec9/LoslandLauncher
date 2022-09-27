@@ -1,1 +1,1 @@
-# LoslandLauncher
+# Losland Roleplay (losland-rp.com)
