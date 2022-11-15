@@ -49,9 +49,9 @@ namespace LoslandLauncher
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(38, 191);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 13);
+            this.label1.Size = new System.Drawing.Size(135, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Lütfen bekleyin...";
+            this.label1.Text = "Güncelleme listesi alınıyor...";
             // 
             // panel1
             // 

@@ -25,8 +25,8 @@ namespace LoslandLauncher
         public Main()
         {
             InitializeComponent();
-            this.BackColor = Color.Black;
-            this.TransparencyKey = Color.Black;
+            this.BackColor = Color.FromArgb(21, 21, 21);
+            this.TransparencyKey = Color.FromArgb(21, 21, 21);
             LoadFonts();
             SetFonts();
             try
@@ -202,6 +202,30 @@ namespace LoslandLauncher
         private void minimizeApp_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        int fMove;
+        int fMouse_X;
+        int fMouse_Y;
+
+        private void Main_MouseUp(object sender, MouseEventArgs e)
+        {
+            fMove = 0;
+        }
+
+        private void Main_MouseDown(object sender, MouseEventArgs e)
+        {
+            fMove = 1;
+            fMouse_X = e.X;
+            fMouse_Y = e.Y;
+        }
+
+        private void Main_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (fMove == 1)
+            {
+                this.SetDesktopLocation(MousePosition.X - fMouse_X, MousePosition.Y - fMouse_Y);
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -48,6 +49,7 @@ namespace LoslandLauncher
             panel2.Width += 4;
             if(panel2.Width >= 444)
             {
+                if(!File.Exists(Globals.GamePath + "\\_fromlauncher.txt")) File.Create(Globals.GamePath + "\\_fromlauncher.txt").Dispose();
                 Process game = new Process();
                 game.StartInfo.FileName = Globals.GamePath + "\\samp.exe";
                 game.StartInfo.Arguments = Globals.GameIP + " -n" + Globals.Username;
