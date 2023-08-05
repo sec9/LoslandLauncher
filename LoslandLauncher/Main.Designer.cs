@@ -66,7 +66,7 @@ namespace LoslandLauncher
             this.userNameBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
             this.userNameBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.userNameBox.Location = new System.Drawing.Point(576, 495);
-            this.userNameBox.MaxLength = 16;
+            this.userNameBox.MaxLength = 24;
             this.userNameBox.Name = "userNameBox";
             this.userNameBox.Size = new System.Drawing.Size(170, 13);
             this.userNameBox.TabIndex = 3;

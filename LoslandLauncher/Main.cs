@@ -106,14 +106,16 @@ namespace LoslandLauncher
             }
             else if (userNameBox.Text.Length < 4 || userNameBox.Text.Length > 23)
             {
-                MessageBox.Show("Geçersiz LRP_ID formatı. (örnek: LRP_1)", "Losland Launcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Kullanıcı adı en az 4, en fazla 24 karakter olabilir.", "Losland Launcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            /*
             else if (userNameBox.Text[0] != 'L' || userNameBox.Text[1] != 'R' || userNameBox.Text[2] != 'P' || userNameBox.Text[3] != '_')
             {
                 MessageBox.Show("Geçersiz LRP_ID formatı. (örnek: LRP_1)", "Losland Launcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            */
             else if (Globals.Version != Functions.ReadTextFromUrl(Globals.WEBAPI + "version.php"))
             {
                 Functions.UpdateApp();

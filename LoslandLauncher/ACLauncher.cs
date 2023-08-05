@@ -27,7 +27,7 @@ namespace LoslandLauncher
         {
             Control.CheckForIllegalCrossThreadCalls = false;
             Random rand = new Random();
-            int randint = rand.Next(0, 2);
+            int randint = rand.Next(0, 3);
             switch (randint)
             {
                 case 0:
@@ -35,6 +35,9 @@ namespace LoslandLauncher
                     break;
                 case 1:
                     this.BackgroundImage = Properties.Resources.acbg2;
+                    break;
+                case 2:
+                    this.BackgroundImage = Properties.Resources.acbg3;
                     break;
                 default:
                     this.BackgroundImage = Properties.Resources.acbg;

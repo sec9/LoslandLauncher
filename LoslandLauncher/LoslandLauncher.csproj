@@ -157,6 +157,7 @@
   <ItemGroup>
     <Content Include="logo.ico" />
     <Content Include="logohd.ico" />
+    <None Include="Resources\acbg3.png" />
     <None Include="Resources\logohd.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

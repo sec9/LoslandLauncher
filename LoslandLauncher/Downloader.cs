@@ -36,6 +36,13 @@ namespace LoslandLauncher
         {
             try
             {
+                bool check = Functions.IsRunning("gta_sa");
+                if(check)
+                {
+                    MessageBox.Show("Launcheri çalıştırabilmek için öncelikle GTA:SA'yı kapatmanız gerekiyor.", "Losland Launcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Environment.Exit(0);
+                    return;
+                }
                 if (!Directory.Exists(Globals.GamePath))
                 {
                     MessageBox.Show("Cihazınızda GTA:SA veya SA-MP yazılımı bulunamadı.", "Losland Launcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -54,7 +61,11 @@ namespace LoslandLauncher
                     Functions.UpdateApp();
                     return;
                 }
-                downloadArray = Functions.ReadTextFromUrl(Globals.WEBAPI + "patch.php").Split('|');
+                if (!Directory.Exists(Globals.GamePath + "\\secac\\data"))
+                {
+                    Directory.CreateDirectory(Globals.GamePath + "\\secac\\data");
+                }
+                downloadArray = Functions.ReadTextFromUrl(Globals.WEBAPI + "patch.php?r55").Split('|');
                 CheckUpdate();
             }
             catch (Exception ex)
@@ -89,6 +100,7 @@ namespace LoslandLauncher
                 downloadTempArray = downloadArray[i].Split(',');
                 if (!File.Exists(Globals.GamePath + "\\" + downloadTempArray[0]))
                 {
+                    if (downloadTempArray[0] == "samp.asi") continue;
                     founded = 1;
                     DownloadFile(Globals.WEBAPI + "files/" + downloadTempArray[0], Globals.GamePath + "\\" + downloadTempArray[0]);
                     label1.Text = "Oyun dosyaları güncelleniyor...";
