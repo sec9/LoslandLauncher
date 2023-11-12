@@ -41,9 +41,11 @@ namespace LoslandLauncher
             this.pingCount = new System.Windows.Forms.Label();
             this.closeApp = new System.Windows.Forms.PictureBox();
             this.minimizeApp = new System.Windows.Forms.PictureBox();
+            this.settings = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.closeApp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.minimizeApp)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.settings)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -148,7 +150,7 @@ namespace LoslandLauncher
             this.minimizeApp.BackColor = System.Drawing.Color.Transparent;
             this.minimizeApp.Cursor = System.Windows.Forms.Cursors.Hand;
             this.minimizeApp.Image = global::LoslandLauncher.Properties.Resources.alt;
-            this.minimizeApp.Location = new System.Drawing.Point(906, 28);
+            this.minimizeApp.Location = new System.Drawing.Point(857, 28);
             this.minimizeApp.Name = "minimizeApp";
             this.minimizeApp.Size = new System.Drawing.Size(30, 30);
             this.minimizeApp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -157,6 +159,21 @@ namespace LoslandLauncher
             this.minimizeApp.Click += new System.EventHandler(this.minimizeApp_Click);
             this.minimizeApp.MouseEnter += new System.EventHandler(this.minimizeApp_MouseEnter);
             this.minimizeApp.MouseLeave += new System.EventHandler(this.minimizeApp_MouseLeave);
+            // 
+            // settings
+            // 
+            this.settings.BackColor = System.Drawing.Color.Transparent;
+            this.settings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.settings.Image = global::LoslandLauncher.Properties.Resources.settings;
+            this.settings.Location = new System.Drawing.Point(906, 28);
+            this.settings.Name = "settings";
+            this.settings.Size = new System.Drawing.Size(30, 30);
+            this.settings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.settings.TabIndex = 10;
+            this.settings.TabStop = false;
+            this.settings.Click += new System.EventHandler(this.settings_Click);
+            this.settings.MouseEnter += new System.EventHandler(this.settings_MouseEnter);
+            this.settings.MouseLeave += new System.EventHandler(this.settings_MouseLeave);
             // 
             // Main
             // 
@@ -173,6 +190,7 @@ namespace LoslandLauncher
             this.Controls.Add(this.hostName);
             this.Controls.Add(this.userNameBox);
             this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.settings);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -186,6 +204,7 @@ namespace LoslandLauncher
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.closeApp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.minimizeApp)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.settings)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -203,6 +222,7 @@ namespace LoslandLauncher
         private System.Windows.Forms.PictureBox closeApp;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox minimizeApp;
+        private System.Windows.Forms.PictureBox settings;
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using LoslandLauncher.Classes;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -52,14 +53,17 @@ namespace LoslandLauncher
             panel2.Width += 4;
             if(panel2.Width >= 444)
             {
-                if(!File.Exists(Globals.GamePath + "\\_fromlauncher.txt")) File.Create(Globals.GamePath + "\\_fromlauncher.txt").Dispose();
+                timer1.Stop();
+                if (!File.Exists(Globals.GamePath + "\\_fromlauncher.txt")) File.Create(Globals.GamePath + "\\_fromlauncher.txt").Dispose();
                 Process game = new Process();
                 game.StartInfo.FileName = Globals.GamePath + "\\samp.exe";
                 game.StartInfo.Arguments = Globals.GameIP + " -n" + Globals.Username;
                 game.StartInfo.UseShellExecute = true;
-                game.StartInfo.Verb = "runas";
+                if (Convert.ToBoolean(Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\loslauncher").GetValue("settings_1")))
+                {
+                    game.StartInfo.Verb = "runas";
+                }
                 game.Start();
-                timer1.Stop();
                 this.Hide();
                 waitGTA = true;
                 timer2.Start();

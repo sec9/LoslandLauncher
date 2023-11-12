@@ -100,7 +100,7 @@ namespace LoslandLauncher
                 downloadTempArray = downloadArray[i].Split(',');
                 if (!File.Exists(Globals.GamePath + "\\" + downloadTempArray[0]))
                 {
-                    if (downloadTempArray[0] == "samp.asi") continue;
+                    if (downloadTempArray[0] == "samp.exe" || downloadTempArray[0] == "samp.asi") continue;
                     founded = 1;
                     DownloadFile(Globals.WEBAPI + "files/" + downloadTempArray[0], Globals.GamePath + "\\" + downloadTempArray[0]);
                     label1.Text = "Oyun dosyaları güncelleniyor...";

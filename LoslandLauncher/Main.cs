@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace LoslandLauncher
 {
@@ -87,14 +88,41 @@ namespace LoslandLauncher
 
         public void CloseDownloaderForm()
         {
-            Downloader downloader = (Downloader)Application.OpenForms["Downloader"];
-            downloader.Hide();
+            FormCollection fc = Application.OpenForms;
+            foreach (Form frm in fc)
+            {
+                if (frm.Name == "Downloader")
+                {
+                    frm.Hide();
+                    return;
+                }
+            }
         }
 
         public void CloseACForm()
         {
-            ACLauncher launcher = (ACLauncher)Application.OpenForms["ACLauncher"];
-            launcher.Close();
+            FormCollection fc = Application.OpenForms;
+            foreach (Form frm in fc)
+            {
+                if (frm.Name == "ACLauncher")
+                {
+                    frm.Close();
+                    return;
+                }
+            }
+        }
+
+        public void CloseSettingsForm()
+        {
+            FormCollection fc = Application.OpenForms;
+            foreach (Form frm in fc)
+            {
+                if(frm.Name == "Settings")
+                {
+                    frm.Close();
+                    return;
+                }
+            }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -228,6 +256,23 @@ namespace LoslandLauncher
             {
                 this.SetDesktopLocation(MousePosition.X - fMouse_X, MousePosition.Y - fMouse_Y);
             }
+        }
+
+        private void settings_MouseEnter(object sender, EventArgs e)
+        {
+            settings.Image = Properties.Resources.settingshover;
+        }
+
+        private void settings_MouseLeave(object sender, EventArgs e)
+        {
+            settings.Image = Properties.Resources.settings;
+        }
+
+        private void settings_Click(object sender, EventArgs e)
+        {
+            CloseSettingsForm();
+            Settings settingsForm = new Settings();
+            settingsForm.Show();
         }
     }
 }

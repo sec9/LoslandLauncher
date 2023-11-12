@@ -10,8 +10,8 @@ namespace LoslandLauncher.Classes
     class Globals
     {
         public static string WEBAPI = "http://fast.sec-nine.com/secac/losland/app/";
-        public static string Version = "0.4";
-        public static string GameIP = "51.195.39.72";
+        public static string Version = "0.6";
+        public static string GameIP = "51.77.74.142";
         public static string _GamePath = Registry.CurrentUser.OpenSubKey(@"Software\\SAMP").GetValue("gta_sa_exe").ToString();
         public static string GamePath = _GamePath = _GamePath.Substring(0, _GamePath.LastIndexOf(@"\") + 1);
         public static string Username = "";
