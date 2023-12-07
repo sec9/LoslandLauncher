@@ -58,7 +58,6 @@ namespace LoslandLauncher
             }
             userNameBox.Select(userNameBox.Text.Length, userNameBox.Text.Length);
             ipAddress.Text = Globals.GameIP + ":7777";
-            serverInfoWorker.RunWorkerAsync();
         }
 
         private PrivateFontCollection fonts = new PrivateFontCollection();
@@ -84,6 +83,7 @@ namespace LoslandLauncher
         private void Main_Load(object sender, EventArgs e)
         {
             Control.CheckForIllegalCrossThreadCalls = false;
+            serverInfoWorker.RunWorkerAsync();
         }
 
         public void CloseDownloaderForm()

@@ -38,6 +38,7 @@ namespace LoslandLauncher
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.zipExtractor = new System.ComponentModel.BackgroundWorker();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -104,6 +105,11 @@ namespace LoslandLauncher
             this.timer1.Interval = 2000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // zipExtractor
+            // 
+            this.zipExtractor.DoWork += new System.ComponentModel.DoWorkEventHandler(this.zipExtractor_DoWork);
+            this.zipExtractor.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.zipExtractor_RunWorkerCompleted);
+            // 
             // Downloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -136,5 +142,6 @@ namespace LoslandLauncher
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Timer timer1;
+        private System.ComponentModel.BackgroundWorker zipExtractor;
     }
 }

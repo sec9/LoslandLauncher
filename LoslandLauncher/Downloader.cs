@@ -8,8 +8,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +27,7 @@ namespace LoslandLauncher
 
         string[] downloadArray;
         string[] downloadTempArray;
+        bool downloadingZip = false;
         public Downloader()
         {
             InitializeComponent();
@@ -56,7 +59,7 @@ namespace LoslandLauncher
                     Environment.Exit(0);
                     return;
                 }
-                if (Globals.Version != Functions.ReadTextFromUrl(Globals.WEBAPI + "version.php"))
+                if (Globals.Version != Functions.ReadTextFromUrl(Globals.WEBAPI + "version.php", true))
                 {
                     Functions.UpdateApp();
                     return;
@@ -65,7 +68,7 @@ namespace LoslandLauncher
                 {
                     Directory.CreateDirectory(Globals.GamePath + "\\secac\\data");
                 }
-                downloadArray = Functions.ReadTextFromUrl(Globals.WEBAPI + "patch.php?r55").Split('|');
+                downloadArray = Functions.ReadTextFromUrl(Globals.WEBAPI + "patch.php", true).Split('|');
                 CheckUpdate();
             }
             catch (Exception ex)
@@ -100,7 +103,7 @@ namespace LoslandLauncher
                 downloadTempArray = downloadArray[i].Split(',');
                 if (!File.Exists(Globals.GamePath + "\\" + downloadTempArray[0]))
                 {
-                    if (downloadTempArray[0] == "samp.exe" || downloadTempArray[0] == "samp.asi") continue;
+                    if (downloadTempArray[0] == "samp.asi") continue;
                     founded = 1;
                     DownloadFile(Globals.WEBAPI + "files/" + downloadTempArray[0], Globals.GamePath + "\\" + downloadTempArray[0]);
                     label1.Text = "Oyun dosyaları güncelleniyor...";
@@ -122,6 +125,52 @@ namespace LoslandLauncher
             }
             if (founded == 0)
             {
+                if (Convert.ToBoolean(Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\loslauncher").GetValue("settings_2")))
+                {
+                    if (Directory.Exists(Globals.GamePath + "\\modloader"))
+                    {
+                        int needdownload = 0;
+                        if (Directory.Exists(Globals.GamePath + "\\modloader\\mod_loslandlauncher"))
+                        {
+                            long filesize = Functions.GetDirectorySize(new DirectoryInfo(Globals.GamePath + "\\modloader\\mod_loslandlauncher"));
+                            long neededfilesize = Convert.ToInt64(Functions.ReadTextFromUrl(Globals.WEBAPI + "modpatch.php", true));
+                            if(filesize != neededfilesize)
+                            {
+                                needdownload = 1;
+                            }
+                        }
+                        else
+                        {
+                            if (File.Exists(Globals.GamePath + "\\modloader\\mod_loslandlauncher.zip"))
+                            {
+                                label1.Text = "Mod dosyaları güncelleniyor...";
+                                label2.Text = "mod_loslandlauncher.zip çıkartılıyor...";
+                                label3.Text = "Bu işlem disk hızına göre biraz zaman alabilir.";
+                                zipExtractor.RunWorkerAsync();
+                                return;
+                            }
+                            else
+                            {
+                                needdownload = 1;
+                            }
+                        }
+                        if(needdownload == 1)
+                        {
+                            downloadingZip = true;
+                            DownloadFile(Globals.WEBAPI + "files/mod_loslandlauncher.zip", Globals.GamePath + "\\modloader\\mod_loslandlauncher_crc.zip");
+                            label1.Text = "Mod dosyaları güncelleniyor...";
+                            label2.Text = "mod_loslandlauncher.zip indiriliyor...";
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    if (Directory.Exists(Globals.GamePath + "\\modloader\\mod_loslandlauncher"))
+                    {
+                        Directory.Delete(Globals.GamePath + "\\modloader\\mod_loslandlauncher", true);
+                    }
+                }
                 timer1.Start();
             }
         }
@@ -132,6 +181,9 @@ namespace LoslandLauncher
 
         public void DownloadFile(string url, string path)
         {
+            Random random = new Random();
+            url = url + "?r=" + random.Next().ToString();
+
             WebClient down = new WebClient();
             Uri link = new Uri(url);
             down.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadUpdate);
@@ -149,6 +201,12 @@ namespace LoslandLauncher
 
         private void DownloadFinish(object sender, AsyncCompletedEventArgs e)
         {
+            if(downloadingZip)
+            {
+                File.Move(Globals.GamePath + "\\modloader\\mod_loslandlauncher_crc.zip", Globals.GamePath + "\\modloader\\mod_loslandlauncher.zip");
+                File.Delete(Globals.GamePath + "\\modloader\\mod_loslandlauncher_crc.zip");
+                downloadingZip = false;
+            }
             stopWatch.Reset();
             CheckUpdate();
         }
@@ -171,6 +229,23 @@ namespace LoslandLauncher
             main.WindowState = FormWindowState.Minimized;
             main.WindowState = FormWindowState.Normal;
             main.CloseDownloaderForm();
+        }
+
+        private void zipExtractor_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if(Directory.Exists(Globals.GamePath + "\\modloader\\mod_loslandlauncher")) Directory.Delete(Globals.GamePath + "\\modloader\\mod_loslandlauncher", true);
+            Directory.CreateDirectory(Globals.GamePath + "\\modloader\\mod_loslandlauncher");
+
+            ZipFile.ExtractToDirectory(Globals.GamePath + "\\modloader\\mod_loslandlauncher.zip", Globals.GamePath + "\\modloader\\mod_loslandlauncher");
+            ZipArchive archive = ZipFile.OpenRead(Globals.GamePath + "\\modloader\\mod_loslandlauncher.zip");
+            archive.Dispose();
+
+            File.Delete(Globals.GamePath + "\\modloader\\mod_loslandlauncher.zip");
+        }
+
+        private void zipExtractor_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            CheckUpdate();
         }
     }
 }

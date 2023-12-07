@@ -1,10 +1,12 @@
-﻿using Microsoft.Win32;
+﻿using LoslandLauncher.Classes;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Text;
+using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
@@ -20,13 +22,17 @@ namespace LoslandLauncher
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont,
             IntPtr pdv, [System.Runtime.InteropServices.In] ref uint pcFonts);
 
+        bool inital = false;
 
         public Settings()
         {
             InitializeComponent();
             LoadFonts();
             SetFonts();
+            inital = true;
             checkBox1.Checked = Convert.ToBoolean(Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\loslauncher").GetValue("settings_1"));
+            checkBox2.Checked = Convert.ToBoolean(Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\loslauncher").GetValue("settings_2"));
+            inital = false;
         }
 
         private PrivateFontCollection fonts = new PrivateFontCollection();
@@ -43,6 +49,7 @@ namespace LoslandLauncher
         private void SetFonts()
         {
             checkBox1.Font = new Font(fonts.Families[0], 10, FontStyle.Regular);
+            checkBox2.Font = new Font(fonts.Families[0], 10, FontStyle.Regular);
             label1.Font = new Font(fonts.Families[0], 12, FontStyle.Bold);
         }
 
@@ -65,7 +72,21 @@ namespace LoslandLauncher
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
+            if (inital) return;
             Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\loslauncher", true).SetValue("settings_1", Convert.ToInt32(checkBox1.Checked));
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (inital) return;
+            if (!Directory.Exists(Globals.GamePath + "\\modloader"))
+            {
+                MessageBox.Show("Oyun klasöründe modloader yazılımı bulunamadı.", "Losland Launcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\loslauncher", true).SetValue("settings_2", Convert.ToInt32(checkBox2.Checked));
+            Application.Restart();
+            Environment.Exit(0);
         }
     }
 }
