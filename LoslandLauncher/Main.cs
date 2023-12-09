@@ -33,10 +33,6 @@ namespace LoslandLauncher
             try
             {
                 RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\loslauncher", true);
-                if (registryKey == null)
-                {
-                    registryKey = Registry.LocalMachine.CreateSubKey("Software\\Microsoft\\loslauncher");
-                }
                 if (registryKey.GetValue("username") == null)
                 {
                     RegistryKey _reg = Registry.CurrentUser.OpenSubKey(@"Software\\SAMP", true);
@@ -151,10 +147,6 @@ namespace LoslandLauncher
             }
             Globals.Username = userNameBox.Text;
             RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\loslauncher", true);
-            if (registryKey == null)
-            {
-                registryKey = Registry.LocalMachine.CreateSubKey("Software\\Microsoft\\loslauncher");
-            }
             registryKey.SetValue("username", userNameBox.Text);
             this.Hide();
             ACLauncher launcher = new ACLauncher();
